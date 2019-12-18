@@ -284,11 +284,7 @@ export class BrMaskerDirective implements OnInit, ControlValueAccessor {
   }
 
   private onInput(value: any): void {
-    const ret = this.formatField(value, this.brmasker.mask, this.brmasker.len);
-    return ret;
-    // if (ret) {
-    //   this.element.nativeElement.value = ret;
-    // }
+    return this.formatField(value, this.brmasker.mask, this.brmasker.len);
   }
 
   private thousand(value: string): string {
@@ -324,31 +320,30 @@ export class BrMaskerDirective implements OnInit, ControlValueAccessor {
     return NovoValorCampo;
   }
 
-  private formatField(campo: string, Mascara: string, tamanho: number): any {
-    if (!tamanho) { tamanho = 99999999999; }
-    let boleanoMascara;
-    const exp = /\-|\.|\/|\(|\)|\,|\*|\+|\@|\#|\$|\&|\%|\:| /gi;
-    const campoSoNumeros = campo.toString().replace(exp, '');
-    let posicaoCampo = 0;
-    let NovoValorCampo = '';
-    let TamanhoMascara = campoSoNumeros.length;
-    for (let i = 0; i < TamanhoMascara; i++) {
-      if (i < tamanho) {
-        boleanoMascara = ((Mascara.charAt(i) === '-') || (Mascara.charAt(i) === '.') || (Mascara.charAt(i) === '/'));
-        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) === '(') || (Mascara.charAt(i) === ')') || (Mascara.charAt(i) === ' '));
-        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) === ',') || (Mascara.charAt(i) === '*') || (Mascara.charAt(i) === '+'));
-        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) === '@') || (Mascara.charAt(i) === '#') || (Mascara.charAt(i) === ':'));
-        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) === '$') || (Mascara.charAt(i) === '&') || (Mascara.charAt(i) === '%'));
-        if (boleanoMascara) {
-          NovoValorCampo += Mascara.charAt(i);
-          TamanhoMascara++;
+  private formatField(campo: string, mask: string, length: number): any {
+    if (!length) { length = Number.MAX_SAFE_INTEGER; }
+    let booleanMask;
+    const expression = /\-|\.|\/|\(|\)|\,|\*|\+|\@|\#|\$|\&|\%|\:| /gi;
+    const onlyNumbersField = campo.toString().replace(expression, '');
+    let fieldPos = 0;
+    let newFieldValue = '';
+    let maskLength = onlyNumbersField.length;
+    for (let i = 0; i < maskLength; i++) {
+      if (i < length) {
+        booleanMask = ((mask.charAt(i) === '-') || (mask.charAt(i) === '.') || (mask.charAt(i) === '/'));
+        booleanMask = booleanMask || ((mask.charAt(i) === '(') || (mask.charAt(i) === ')') || (mask.charAt(i) === ' '));
+        booleanMask = booleanMask || ((mask.charAt(i) === ',') || (mask.charAt(i) === '*') || (mask.charAt(i) === '+'));
+        booleanMask = booleanMask || ((mask.charAt(i) === '@') || (mask.charAt(i) === '#') || (mask.charAt(i) === ':'));
+        booleanMask = booleanMask || ((mask.charAt(i) === '$') || (mask.charAt(i) === '&') || (mask.charAt(i) === '%'));
+        if (booleanMask) {
+          newFieldValue += mask.charAt(i);
+          maskLength++;
         } else {
-          NovoValorCampo += campoSoNumeros.charAt(posicaoCampo);
-          posicaoCampo++;
+          newFieldValue += onlyNumbersField.charAt(fieldPos);
+          fieldPos++;
         }
       }
     }
-    return NovoValorCampo;
+    return newFieldValue;
   }
-
 }

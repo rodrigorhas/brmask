@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { BrMaskService } from './rodrigorhas-brmask.service';
 
-describe('RodrigorhasBrmaskService', () => {
+describe('RodrigorhasBrMaskService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
