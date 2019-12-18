@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "rodrigorhas-brmask": [
+        "dist/rodrigorhas-brmask"
+      ],
+      "rodrigorhas-brmask/*": [
+        "dist/rodrigorhas-brmask/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
